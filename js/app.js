@@ -2,18 +2,16 @@
  * Create a list that holds all of your cards
  */
  // This array holds the currently clicked cards
-let oc = [];
+let openCardsList = [];
 
-// this array holds the locked cards
-let lockCards = [];
 
 // Add a eventlistener to the restart button
 document.getElementById('repeat').addEventListener('click', newDeck);
+
 function newDeck() {
   const cards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-anchor",
               "fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube", "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle",
               "fa fa-bomb", "fa fa-bomb"];
-
 
   //Shuffle cards
   const newCards = shuffle(cards);
@@ -32,8 +30,10 @@ function newDeck() {
   }
 }
 
+// Make each card on the deck clickable
 document.getElementById('cardDeck').addEventListener('click', displayCard);
 
+// When a card is clicked, display it on the deck
 function displayCard(evt) {
   console.log("DisplayCard called");
   let classNames = evt.target.classList;
@@ -41,6 +41,7 @@ function displayCard(evt) {
 
   if (evt.target.nodeName === 'LI') {
 
+  // If a card is clicked multiple times, only one click is counted
   if (!(classNames.contains("open"))) {
       classNames.add('open', 'show');
       openCards(evt.target.id);
@@ -48,38 +49,41 @@ function displayCard(evt) {
   }
 }
 
+// When a card is clicked, push it's id into an array
 function openCards(id) {
-
   console.log("openCards called on id: " + id);
   // Do I really need array
-  if (oc.length == 0) {
-    oc.push(id);
+
+  openCardsList.push(id);
+  if(openCardsList.length === 2) {
+    checkMatch();
   }
-  else {
-    rule(id);
-  }
-  //else {
-    // oc.length = 0;
-  //}
-  console.log(oc);
+  // if (oc.length == 0) {
+    // oc.push(id);
+  // }
+  // else {
+    // checkMatch(id);
+// }
+
+  console.log(openCardsList);
   // return oc;
 }
 
-function rule(id) {
+// This function is to check if the two opend cards match
+function checkMatch() {
 
-  console.log("rule() function is called");
+  console.log("checkMatch() function is called");
 
-  var cardOneClassName = document.getElementById(oc[0]).firstElementChild.className;
-  var cardTwoClassName = document.getElementById(id).firstElementChild.className;
+  var cardOneClassName = document.getElementById(openCardsList[0]).firstElementChild.className;
+  var cardTwoClassName = document.getElementById(openCardsList[1]).firstElementChild.className;
   console.log("OC array has: " + cardOneClassName + " " + cardTwoClassName);
 
 
   if (cardOneClassName === cardTwoClassName) {
       console.log('you got it!');
-      // find the match, copy the data to locked array. empty the OC array
-      lockCards.push(oc[0]);
-      lockCards.push(id);
-      oc.length=0;
+
+      matchedCards();
+
 
     }
   else {
@@ -87,19 +91,32 @@ function rule(id) {
       // To have a game effect, need to show the opened cards for a short time, then close it
       setTimeout(function()
       {
-        closeCards(id);
+        closeCards();
 
       }, 500);
 
   }
 }
 
-function closeCards(id)
+// if two cards match, stay in the match position
+function matchedCards() {
+  console.log("Before matchedCards called" + document.getElementById(openCardsList[0]).className);
+  document.getElementById(openCardsList[0]).classList.add('match');
+  document.getElementById(openCardsList[0]).classList.remove('open', 'show');
+
+  document.getElementById(openCardsList[1]).classList.add('match');
+  document.getElementById(openCardsList[1]).classList.remove('open', 'show');
+  console.log("AftermatchedCards called" + document.getElementById(openCardsList[0]).className);
+  openCardsList.length=0;
+}
+
+// If two cards don't match, hide cards simbol 
+function closeCards()
 {
   console.log("close cards function called");
-  document.getElementById(id).className = "card";
-  document.getElementById(oc[0]).className = "card";
-  oc.length = 0;
+  document.getElementById(openCardsList[1]).className = "card";
+  document.getElementById(openCardsList[0]).className = "card";
+  openCardsList.length = 0;
 }
 
 
