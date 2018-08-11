@@ -8,17 +8,19 @@ let counter = 0;
 
 let matchedCardsCount = 0;
 
-let seconds = 0;
+//let seconds = 0;
 
 var startTime, endTime;
 
-var timeOut;
+let stars = document.querySelectorAll(".fa-star");
 
+// Start a new game
 newDeck();
 
 // Add a eventlistener to the restart button
 document.getElementById('repeat').addEventListener('click', newDeck);
 
+// Function of starting a new deck of cards
 function newDeck() {
 
   let cards = [];
@@ -36,7 +38,7 @@ function newDeck() {
     findI[i].className = cards[i];
   }
 
-  //Restart a new deck of cards
+  // Put a new deck of cards on the screen
   var myList = document.querySelectorAll(".deck li");
 
   for (i = 0; i < myList.length; i++) {
@@ -47,6 +49,12 @@ function newDeck() {
   openCardsList.length = 0;
   counter = 0;
   document.querySelector(".moves").textContent = counter;
+
+  // Set star rating styles
+  for (var i= 0; i < stars.length; i++){
+       stars[i].style.color = "#8A2BE2";
+       stars[i].style.visibility = "visible";
+   }
 }
 
 // Make each card on the deck clickable
@@ -54,7 +62,6 @@ document.getElementById('cardDeck').addEventListener('click', displayCard);
 
 // When a card is clicked, display it on the deck
 function displayCard(evt) {
-  console.log("displayCard function is called");
   let classNames = evt.target.classList;
 
   if ((evt.target.nodeName === 'LI') && (openCardsList.length < 2)){
@@ -68,41 +75,28 @@ function displayCard(evt) {
   }
 
   if (counter === 1) {
-    startTimer();
-    console.log("Timer started");
+    timerStart();
   }
+  starRating();
 }
 
 // When a card is clicked, push it's id into an array
 function openCards(id) {
-  console.log("openCards called on id: " + id);
-
   openCardsList.push(id);
   if(openCardsList.length === 2) {
     checkMatch();
   }
-
-  console.log("openCardsList array has: " + openCardsList[0] + " " + openCardsList[1]);
-  console.log(openCardsList);
-
 }
 
 // This function is to check if the two opend cards match
 function checkMatch() {
-
-  console.log("checkMatch() function is called");
   var cardOneClassName = document.getElementById(openCardsList[0]).firstElementChild.className;
   var cardTwoClassName = document.getElementById(openCardsList[1]).firstElementChild.className;
-  console.log("OC array has: " + cardOneClassName + " " + cardTwoClassName);
-
 
   if (cardOneClassName === cardTwoClassName) {
-      console.log('you got it!');
-
       matchedCards();
     }
   else {
-      console.log('oh, no!');
       // To have a game effect, need to show the opened cards for a short time, then close it
       setTimeout(function()
       {
@@ -123,11 +117,10 @@ function matchedCards() {
 
   openCardsList.length=0;
   matchedCardsCount += 2;
-  console.log("matched cards are now " + matchedCardsCount);
+
   if (matchedCardsCount === 16) {
     myModal();
     stopTimer();
-    console.log("Time elapsed " + seconds);
   }
 }
 
@@ -138,6 +131,47 @@ function closeCards()
   document.getElementById(openCardsList[1]).className = "card";
   document.getElementById(openCardsList[0]).className = "card";
   openCardsList.length = 0;
+}
+
+var seconds = 0;
+var minutes = 0;
+var hours = 0;
+
+// Start time recording
+function timerStart() {
+  startTime = setInterval(function() {
+
+    seconds++;
+    if(seconds === 60) {
+      minutes++;
+      seconds = 0;
+    }
+    if(minutes === 60) {
+      hours++;
+      minutes = 0;
+    }
+    document.getElementById("min").textContent = minutes;
+    document.getElementById("sec").textContent = seconds;
+  }, 1000);
+}
+
+// Stop time recording
+function stopTimer() {
+  clearInterval(startTime);
+}
+
+// Star rating change to two stars after 25 moves, and to one star after 40 mores
+function starRating() {
+  if ((counter > 25) && ( counter < 40)) {
+    for(i = 2; i < 3; i++) {
+      stars[i].style.visibility ="Hidden";
+      }
+  }
+  else if (counter > 40) {
+    for(i = 1; i < 3; i++) {
+      stars[i].style.visibility ="Hidden";
+      }
+  }
 }
 
 // Modal box function
@@ -160,18 +194,18 @@ function myModal() {
         modal.style.display = "none";
     }
   }
+  document.getElementById("time").innerHTML = minutes + " Mins " + seconds + " Secs";
+  document.getElementById("rating").innerHTML = document.querySelector(".stars").innerHTML;
 }
 
-function startTimer() {
-  startTime = new Date();
+function playAgain() {
+  document.getElementById('myModal').style.display = "none";
+  newDeck();
 }
-function stopTimer() {
-  endTime = new Date();
-  var timeDiff = endTime - startTime;
-  timeDiff /= 1000;
-  seconds = Math.round(timeDiff);
-  console.log(seconds);
-}
+
+
+
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -194,7 +228,16 @@ function shuffle(array) {
     return array;
 }
 
-
+// This part is for test modal box style only
+var modal = document.getElementById('myModal');
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+span.onclick = function() {
+  modal.style.display = "none";
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)

@@ -23,8 +23,11 @@
         	</ul>
 
         	<span class="moves">3</span> Move(s)
-
-            <div class="restart" id = "repeat">
+          <div class="timer">
+            <i id="min">0</i> Mins
+            <i id="sec">0</i> Secs
+          </div>
+          <div class="restart" id = "repeat">
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
@@ -80,6 +83,7 @@
             </li>
         </ul>
     </div>
+    <button id="myBtn">Open Modal</button>
 
     <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -87,8 +91,10 @@
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-    <button>Play Again</button>
+    <h1>You Won!</h1>
+    <p>Your star rating is: <span id="rating"></span></p>
+    <p>Time spend: <span id="time"></span><p>
+    <button onclick="playAgain()">Play Again</button>
   </div>
 
 </div>

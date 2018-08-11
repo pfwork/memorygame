@@ -87,7 +87,7 @@ h1 {
 
 .score-panel {
     text-align: left;
-    width: 345px;
+    /* width: 375px; */
     margin-bottom: 10px;
 }
 
@@ -103,25 +103,29 @@ h1 {
     display: inline-block;
 }
 
+.timer {
+    padding-right: 10px;
+    padding-left: 10px;
+    display: inline-block;
+}
+
 .score-panel .restart {
     float: right;
     cursor: pointer;
+    padding-left: 10px;
 }
 
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
-    /* position: fixed; /* Stay in place  */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    /* left: 0; */
-    /* top: 0; */
-     width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    position: fixed; /* Stay in place */
+    /* z-index: 1; /* Sit on top */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* width: 100%; /* Full width */
+    /* height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
@@ -129,11 +133,19 @@ h1 {
 
 /* Modal Content */
 .modal-content {
-    background-color: #fefefe;
+    /*background-color: #fefefe;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 80%;*/
+    margin: 100px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 5px;
+    width: 85%;
+    position: relative;
+    text-align: center;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 /* The Close Button */
@@ -149,4 +161,8 @@ h1 {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+#rating li {
+	display: inline-block;
 }
