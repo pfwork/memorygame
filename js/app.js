@@ -35,7 +35,7 @@ function newDeck() {
 
   //Put shuffled cards on the screen
   for (i = 0; i < findI.length; i++) {
-    findI[i].className = cards[i];
+     findI[i].className = cards[i];
   }
 
   // Put a new deck of cards on the screen
@@ -55,6 +55,13 @@ function newDeck() {
        stars[i].style.color = "#8A2BE2";
        stars[i].style.visibility = "visible";
    }
+
+   // Reset timer
+   seconds = 0;
+   minutes = 0;
+   hours = 0;
+   document.getElementById("min").textContent = minutes;
+   document.getElementById("sec").textContent = seconds;
 }
 
 // Make each card on the deck clickable
@@ -228,16 +235,6 @@ function shuffle(array) {
     return array;
 }
 
-// This part is for test modal box style only
-var modal = document.getElementById('myModal');
-var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-span.onclick = function() {
-  modal.style.display = "none";
-}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
