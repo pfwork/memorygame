@@ -10,7 +10,7 @@ let matchedCardsCount = 0;
 
 //let seconds = 0;
 
-var startTime, endTime;
+var startTime = null;
 
 let stars = document.querySelectorAll(".fa-star");
 
@@ -56,12 +56,14 @@ function newDeck() {
        stars[i].style.visibility = "visible";
    }
 
+   matchedCardsCount = 0;
    // Reset timer
    seconds = 0;
    minutes = 0;
    hours = 0;
    document.getElementById("min").textContent = minutes;
    document.getElementById("sec").textContent = seconds;
+   stopTimer();
 }
 
 // Make each card on the deck clickable
@@ -124,6 +126,7 @@ function matchedCards() {
 
   openCardsList.length=0;
   matchedCardsCount += 2;
+  console.log(matchedCardsCount);
 
   if (matchedCardsCount === 16) {
     myModal();
@@ -165,6 +168,7 @@ function timerStart() {
 // Stop time recording
 function stopTimer() {
   clearInterval(startTime);
+  startTime = 0;
 }
 
 // Star rating change to two stars after 25 moves, and to one star after 40 mores
