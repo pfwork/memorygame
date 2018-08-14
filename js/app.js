@@ -77,14 +77,13 @@ function displayCard(evt) {
     // If a card is clicked multiple times, only one click is counted
     if (!(classNames.contains("open", 'show'))) {
       counter += 1;
+      if (counter === 1) {
+        timerStart();
+      }
       classNames.add('open', 'show');
       document.querySelector(".moves").textContent = counter;
       openCards(evt.target.id);
     }
-  }
-
-  if (counter === 1) {
-    timerStart();
   }
   starRating();
 }
@@ -92,6 +91,7 @@ function displayCard(evt) {
 // When a card is clicked, push it's id into an array
 function openCards(id) {
   openCardsList.push(id);
+  console.log(openCardsList);
   if(openCardsList.length === 2) {
     checkMatch();
   }
@@ -121,7 +121,7 @@ function matchedCards() {
 
   for(i = 0; i < openCardsList.length; i++) {
     document.getElementById(openCardsList[i]).classList.add('match');
-    document.getElementById(openCardsList[i]).classList.remove('open', 'show');
+    // document.getElementById(openCardsList[i]).classList.remove('open', 'show');
   }
 
   openCardsList.length=0;
